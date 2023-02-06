@@ -1,8 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-
+const cloudinary = require("cloudinary").v2; // On n'oublie pas le `.v2` à la fin
 const app = express();
 app.use(cors());
+
+require('dotenv').config();
 
 app.get("/", (req, res) => {
   return res.json({
@@ -451,6 +453,14 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/start" , (req,res)=>{
+    res.status(200).json({ message: "Hello I'm running...." });
+  });
+
+  app.all("*", (req, res) => {
+    res.status(404).json({ message: "This routes doesn't exist" });
+  });
+  
 // Northflank va nous fournir une variable process.env.PORT
 // if (process.env.PORT) {
 //   app.listen(process.env.PORT, () => {
@@ -462,6 +472,6 @@ app.get("/", (req, res) => {
 //   });
 // }
 
-app.listen(process.env.PORT || 3200, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server started");
 });
